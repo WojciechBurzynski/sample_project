@@ -12,9 +12,9 @@
 
 #endif
 
-// Device test cases 
+// DEVICE test cases 
 
-TEST_CASE("base constructor"){
+TEST_CASE("default constructor Device"){
     // Arrange 
     // Act
 	Device Constructor;
@@ -26,7 +26,7 @@ TEST_CASE("base constructor"){
 TEST_CASE("constructor with arguments"){
 	// Arrange 
     int Power = 30;
-    std::string Unit = "KiloWatt"; 
+    std::string Unit = "Kilowatt"; 
     std::string place = "bathroom";
 	// Act
 	Device Constructor(Power, Unit, place);
@@ -39,21 +39,15 @@ TEST_CASE("constructor with arguments"){
 
 //TEST_CASE("copy constructor"){
 //	// Arrange 
-//    Device device1; 
+//    Device deviceFirst; 
 //    int Power = 123;
-//    device1.setPowerConsumption(Power);
-//    const Device device1const = std::as_const(device1);
+//    std::string unit = "Watt";
+//    deviceFirst.setPowerConsumption(Power, unit);
 //	// Act
-//	Device device2(const Device &device1const);
-//    const_cast<Device&>(device2);
+//	Device deviceSec(deviceFirst);
 //	// Assert
-//	REQUIRE(&device2 != NULL);
-//    REQUIRE(device2.getPowerConsumption() == 123); 
-//};
-///*
-
-//~Device(){
-//delete powerConsumption;
+//	REQUIRE(&deviceSec != NULL);
+//    REQUIRE(deviceSec.getPowerConsumption() == 123); 
 //};
 
 // setters 
@@ -94,7 +88,6 @@ TEST_CASE("power consumption unit set - just unit with default value of power co
     REQUIRE(device.getPowerConsumption() == 10);   
 };
 
-
 TEST_CASE("set localistion"){
 	// Arrange 
     std::string Place;
@@ -105,11 +98,48 @@ TEST_CASE("set localistion"){
     REQUIRE(device.getLocalisation() == Place);
 };
 
-/*
-void setPowerConsumption(int Power, std::string Unit){
-*powerConsumption = Power;
-std::string unit1 = "Watt"; 
-std::string unit2 = "Kilowatt"; 
-if (Unit !=unit1 && Unit != unit2) {std:: cout << "unit must be in " << unit1 << " or " << unit2 << std::endl;}
-else consumptionUnit = Unit;
-};*/
+// BULB test cases
+
+TEST_CASE("default constructor Bulb"){
+    // Arrange 
+    std::string Unit = "Watt"; 
+    // Act
+	Bulb Constructor;
+	// Assert
+	REQUIRE(&Constructor != NULL);
+    REQUIRE(Constructor.getConsumptionUnit() == Unit);
+};
+
+
+TEST_CASE("bulb type"){
+    // Arrange 
+    std::string type1 = "halogen";
+    // Act
+	Bulb Constructor;
+    Constructor.setType(type1);
+	// Assert
+    REQUIRE(Constructor.getType() == type1);
+};
+
+// other test cases for fridge, moving robot and other classes to be written in next release
+
+TEST_CASE("default constructor Fridge"){
+    // Arrange 
+    std::string unit = "Kilowatt";
+    // Act
+	Fridge Constructor;
+	// Assert
+	REQUIRE(&Constructor != NULL);
+    REQUIRE(Constructor.getCapacity() == 0);
+    REQUIRE(Constructor.getConsumptionUnit() == unit);
+};
+
+TEST_CASE("setter capacity"){
+    // Arrange 
+    int capa = 20;
+    // Act
+	Fridge Constructor;
+    Constructor.setCapacity(capa);
+	// Assert
+    REQUIRE(Constructor.getCapacity() == 20);
+};

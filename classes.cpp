@@ -13,7 +13,6 @@ private:
 int ExceptionNumber = 0; 
 
 public: 
-
 void setExceptionNumber(int number){
 ExceptionNumber = number;
 std::string exception = " ";
@@ -23,7 +22,6 @@ if (number = 1) {
     exception = "memory allocation error - null pointer exception!!!!";
     throw exception;}
 };
-
 };
 
 class Device{
@@ -31,7 +29,7 @@ private:
 
 int* pointerAssignment(){
     int *powerConsumption = new int;
-    if (*powerConsumption == 0) {
+    if (powerConsumption == 0) {
         Exception ex1; 
         ex1.setExceptionNumber(1) ;
         return powerConsumption;}
@@ -41,8 +39,8 @@ int* pointerAssignment(){
 
 int *powerConsumption = pointerAssignment();
 
-std::string consumptionUnit = "please set unit"; 
-std::string localisation = "please set localistion"; 
+std::string consumptionUnit = "<please set unit>"; 
+std::string localisation = "<please set localistion>"; 
 
 public:
 // constructors, destructor
@@ -55,9 +53,12 @@ Device(){
 *powerConsumption = 10; 
 }; 
 
-Device(const Device &otherDevice){
 // copy constructor
+Device(const Device & otherDevice){
 this->powerConsumption = new int;
+this->powerConsumption = otherDevice.powerConsumption;
+this->consumptionUnit = otherDevice.consumptionUnit;
+this->localisation = otherDevice.localisation;
 };
 
 Device(int Power, std::string Unit, std::string place){
@@ -66,22 +67,23 @@ Device(int Power, std::string Unit, std::string place){
 
     std::string unit1 = "Watt"; 
     std::string unit2 = "Kilowatt"; 
-    std::string unit3 = "please set unit";
+    std::string unit3 = "<please set unit>";
     if (Unit !=unit1 && Unit != unit2 && Unit != unit3) {
         std:: cout << "unit must be in " << unit1 << " or " << unit2 << std::endl;
         consumptionUnit = "wrong Unit";}
     else consumptionUnit = Unit;
 };
 
-~Device(){
+virtual ~Device(){
 delete powerConsumption;
 };
 
 // functions
 
 void printDataAboutDevice(){
-    std::cout << "Information about this device:" << std::endl;
-    std::cout << "Power consumption: " << getPowerConsumption() << getConsumptionUnit();
+    std::cout << "Information about this device:" << std::endl << std::endl;
+    std::cout << "Power consumption: " << this->getPowerConsumption() << " " << this->getConsumptionUnit() << " " << std::endl;;
+    std::cout << "localisation: " << this->getLocalisation() << std::endl << std::endl;
 };
 
 // getters, setters
@@ -90,7 +92,7 @@ void setPowerConsumption(int Power, std::string Unit){
 *powerConsumption = Power;
 std::string unit1 = "Watt"; 
 std::string unit2 = "Kilowatt"; 
-std::string unit3 = "please set unit";
+std::string unit3 = "<please set unit>";
 if (Unit !=unit1 && Unit != unit2 && Unit != unit3) {
     std:: cout << "unit must be in " << unit1 << " or " << unit2 << std::endl;
     consumptionUnit = "wrong Unit";}
@@ -100,7 +102,7 @@ else consumptionUnit = Unit;
 void setPowerConsumptionUnit(std::string Unit){
 std::string unit1 = "Watt"; 
 std::string unit2 = "Kilowatt"; 
-std::string unit3 = "please set unit";
+std::string unit3 = "<please set unit>";
 if (Unit !=unit1 && Unit != unit2 && Unit != unit3) {
     std:: cout << "unit must be in " << unit1 << " or " << unit2 << std::endl;
     consumptionUnit = "wrong Unit";}
@@ -119,26 +121,23 @@ int getPowerConsumption(){
 return *powerConsumption;
 };
 
-auto getLocalisation(){
+std::string getLocalisation(){
     return localisation;
 };
-
 };
 
 class Bulb: public virtual Device{
+
 private:
-std::string unit = "Watt";
-void setPowUnit(std::string unit){
-    Device::setPowerConsumptionUnit(unit);
-    };
-    
-std::string BulbType = "please set bulb type";
+std::string BulbType = "<Please specify bulb type (halogen, traditional, LED>";
 
 public: 
 Bulb(){
-std::cout << "Please specify bulb type (halogen, traditional, LED)"<< std::endl; 
+std::string unit = "Watt";
+this->setPowerConsumptionUnit(unit);
 };
 
+//setters getters
 void setType(std::string type){
     std::string type1 = "halogen";
     std::string type2 = "traditional";
@@ -146,18 +145,21 @@ void setType(std::string type){
 if (type == type1 || type == type2 ||type == type3){
 BulbType = type;
 }
-else std::cout << "wrong type, please use one of available";
+else std::cout << "<wrong type, please use one of available>";
 };
 
 std::string getType(){
     return BulbType;
 };
 
-void printDataAboutDevice(){
-    std::cout << "Power consumption: " << getPowerConsumption() << getConsumptionUnit() << std::endl; 
-    std::cout << "Bulb type: " << getType();
-};
+// function
 
+void printDataAboutDevice(){
+    std::cout << "Information about this bulb:" << std::endl << std::endl;
+    std::cout << "Power consumption: " << this->getPowerConsumption() << " " << this->getConsumptionUnit() << " " << std::endl;;
+    std::cout << "localisation: " << this->getLocalisation() << std::endl;
+    std::cout << "Bulb type: " << this->getType() << std::endl << std::endl;
+};
 };
 
 class Fridge: public virtual Device{
@@ -167,14 +169,14 @@ class Fridge: public virtual Device{
 // When robot fills fridge with products it scanns barcodes in oreder to compare needed vs available. 
 
 private:
-std::string unit = "Kilowatt";
-void setPowUnit(std::string unit){
-    Device::setPowerConsumptionUnit(unit);
-    };
-    
 int freeCapacity = 0; 
 
 public: 
+Fridge(){
+std::string unit = "Kilowatt";
+this->setPowerConsumptionUnit(unit);
+};
+
 void setCapacity(int freeCap){
 freeCapacity = freeCap;
 };
@@ -183,26 +185,36 @@ int getCapacity(){
     return freeCapacity;
 };
 
+// function
+
+void printDataAboutDevice(){
+    std::cout << "Information about this Fridge:" << std::endl << std::endl;
+    std::cout << "Power consumption: " << this->getPowerConsumption() << " " << this->getConsumptionUnit() << " " << std::endl;;
+    std::cout << "localisation: " << this->getLocalisation() << std::endl;
+    std::cout << "Fridge current capacity: " << this->getCapacity() << std::endl << std::endl;
+};
+
 };
 
 class MovingRobot: public virtual Device{
 
-// w niej można zaimplementować filtr kalmana, który później będzie dziedziczyć zarówno ksiarka jak i robot do rozładunku kosza 
+// w niej można zaimplementować filtr kalmana, który później będzie dziedziczyć zarówno kosiarka 
+//jak i robot do rozładunku kosza 
 //i robot do zakupów, ewntualnie odkurzacz 
-// autonomous lawn mower using kalman filter for location 
 
 private: 
-std::string unit = "Kilowatt";
-void setPowUnit(std::string unit){
-    Device::setPowerConsumptionUnit(unit);
-    };
 int BatteryStatus = 0;  //electric lawn mower is assumed 
-std::string RobotStatus = NULL; //on/pause/off
+std::string RobotStatus = " "; //on/pause/off
 
 int engine = 0; 
 int sensors = 0; 
 
 public: 
+MovingRobot(){
+std::string unit = "Kilowatt";
+this->setPowerConsumptionUnit(unit);
+};
+
 void setBatteryStatus(int status){
 BatteryStatus = status; // battery sensor works in infinite loop calling this methood with 1s delay on each iteration for status update    
 };
@@ -221,8 +233,14 @@ std::string getRobotStatus(){
     return RobotStatus;
 }; 
 
+// function
+
 void printDataAboutDevice(){
-    std::cout << "Power consumption: " << getPowerConsumption() << getConsumptionUnit();
+    std::cout << "Information about this moving robot:" << std::endl << std::endl;
+    std::cout << "Power consumption: " << this->getPowerConsumption() << " " << this->getConsumptionUnit() << " " << std::endl;;
+    std::cout << "localisation: " << this->getLocalisation() << std::endl;
+    std::cout << "Battery: " << this->getBatteryStatus() << std::endl;
+    std::cout << "robot status: " << this->getRobotStatus() << std::endl << std::endl;
 };
 };
 
