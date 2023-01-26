@@ -58,41 +58,44 @@ TEST_CASE("constructor with arguments"){
 
 // setters 
 
-TEST_CASE("set1"){
+TEST_CASE("set power consumption with correct unit-should set"){
 	// Arrange 
     int Power = 100;
-    std::string Unit = "sampletext"; 
+    std::string Unit = "Watt"; 
 	// Act
 	Device device;
     device.setPowerConsumption(Power, Unit);
 	// Assert
-    REQUIRE(device.getConsumptionUnit() == Unit);   
+    REQUIRE(device.getConsumptionUnit() == Unit);  
+    REQUIRE(device.getPowerConsumption() == 100); 
 };
 
-TEST_CASE("set2"){
+TEST_CASE("set power consumption with wrong unit-should fail to set"){
 	// Arrange 
-    std::string Unit = "sampletext2"; 
+    int Power = 100;
+    std::string Unit = "sampletext"; 
+    std::string wrongUnit = "wrong Unit";
 	// Act
 	Device device;
-    device.setPowerConsumption(Unit);
+    device.setPowerConsumption(Power, Unit);
+	// Assert
+    REQUIRE(device.getConsumptionUnit() == wrongUnit);  
+    REQUIRE(device.getPowerConsumption() == 100); 
+};
+
+TEST_CASE("power consumption unit set - just unit with default value of power cons"){
+	// Arrange 
+    std::string Unit = "Watt"; 
+	// Act
+	Device device;
+    device.setPowerConsumptionUnit(Unit);
 	// Assert
     REQUIRE(device.getConsumptionUnit() == Unit); 
     REQUIRE(device.getPowerConsumption() == 10);   
 };
 
-TEST_CASE("set3"){
-	// Arrange 
-    int Power = 88;
-    std::string unit1 = "please set unit";
-	// Act
-	Device device;
-    device.setPowerConsumption(Power);
-	// Assert
-    REQUIRE(device.getPowerConsumption() == Power);  
-    REQUIRE(device.getConsumptionUnit() == unit1); 
-};
 
-TEST_CASE("set4"){
+TEST_CASE("set localistion"){
 	// Arrange 
     std::string Place;
 	// Act
@@ -100,17 +103,6 @@ TEST_CASE("set4"){
     device.setLocalisation(Place);
 	// Assert
     REQUIRE(device.getLocalisation() == Place);
-};
-
-TEST_CASE("set5"){
-	// Arrange 
-    int Power = 100;
-    std::string Unit = "sampletext"; 
-	// Act
-	Device device;
-    device.setPowerConsumption(Power, Unit);
-	// Assert
-    REQUIRE(device.getConsumptionUnit() == Unit);   
 };
 
 /*

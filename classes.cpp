@@ -8,55 +8,75 @@
 
 #endif
 
+class Exception{
+private: 
+int ExceptionNumber = 0; 
+
+public: 
+
+void setExceptionNumber(int number){
+ExceptionNumber = number;
+std::string exception = " ";
+
+// nullpointer exception 
+if (number = 1) {
+    exception = "memory allocation error - null pointer exception!!!!";
+    throw exception;}
+};
+
+};
+
 class Device{
 private:
 
-//int* pointerAssignment(){
-//try{int *powerConsumption = new int;}
-//  catch (std::bad_alloc & exception) {std::cerr << "powerConsumption memory allocation error - null pointer!!!!" << exception.what();
-//  };
-//return powerConsumption;
-//};
+int* pointerAssignment(){
+    int *powerConsumption = new int;
+    if (*powerConsumption == 0) {
+        Exception ex1; 
+        ex1.setExceptionNumber(1) ;
+        return powerConsumption;}
+    else 
+    return powerConsumption;
+};
 
-//int* pointerAssignment(){
-//try{int *powerConsumption = new int; 
-//    if (*powerConsumption == 0) throw "powerConsumption memory allocation error - null pointer!!!!";}
-//  //catch (std::bad_alloc & exception) {std::cerr << "powerConsumption memory allocation error - null pointer!!!!" << exception.what();
-//  };
-//return powerConsumption;
-//};
-
-//
-int *powerConsumption = new int;
-
-//int* powerConsumption = pointerAssignment(); 
+int *powerConsumption = pointerAssignment();
 
 std::string consumptionUnit = "please set unit"; 
 std::string localisation = "please set localistion"; 
 
 public:
-//constructors, destructor
-//konstruktor bezparamterowy. Przypisuje standardową wartość 10.
-// he rule of 3/5/0 f? 
+// constructors, destructor
+// as there is a constructor and destructor specified then the rule of 3/5/0 applies
+// destructor and copy constructor are specified. 
+// copy assignment operator, move constructor, move assignment operator should be specified in next classs release
 
 Device(){
-    
-*powerConsumption = 10;  
+//base constructor sets value 10 for powert consuption. This is just for example     
+*powerConsumption = 10; 
 }; 
 
 Device(const Device &otherDevice){
+// copy constructor
 this->powerConsumption = new int;
 };
 
 Device(int Power, std::string Unit, std::string place){
- *powerConsumption = Power;
- consumptionUnit = Unit;
- localisation = place;
+    *powerConsumption = Power;
+    localisation = place;
+
+    std::string unit1 = "Watt"; 
+    std::string unit2 = "Kilowatt"; 
+    std::string unit3 = "please set unit";
+    if (Unit !=unit1 && Unit != unit2 && Unit != unit3) {
+        std:: cout << "unit must be in " << unit1 << " or " << unit2 << std::endl;
+        consumptionUnit = "wrong Unit";}
+    else consumptionUnit = Unit;
 };
 
 ~Device(){
 delete powerConsumption;
 };
+
 // functions
 
 void printDataAboutDevice(){
@@ -70,23 +90,25 @@ void setPowerConsumption(int Power, std::string Unit){
 *powerConsumption = Power;
 std::string unit1 = "Watt"; 
 std::string unit2 = "Kilowatt"; 
-if (Unit !=unit1 && Unit != unit2) {std:: cout << "unit must be in " << unit1 << " or " << unit2 << std::endl;}
+std::string unit3 = "please set unit";
+if (Unit !=unit1 && Unit != unit2 && Unit != unit3) {
+    std:: cout << "unit must be in " << unit1 << " or " << unit2 << std::endl;
+    consumptionUnit = "wrong Unit";}
 else consumptionUnit = Unit;
 };
 
-virtual void setPowerConsumption(std::string Unit){
+void setPowerConsumptionUnit(std::string Unit){
 std::string unit1 = "Watt"; 
 std::string unit2 = "Kilowatt"; 
-if (Unit !=unit1 && Unit != unit2) {std:: cout << "unit must be in " << unit1 << " or " << unit2 << std::endl;}
+std::string unit3 = "please set unit";
+if (Unit !=unit1 && Unit != unit2 && Unit != unit3) {
+    std:: cout << "unit must be in " << unit1 << " or " << unit2 << std::endl;
+    consumptionUnit = "wrong Unit";}
 else consumptionUnit = Unit;
 };
 
-virtual void setLocalisation(std::string Place){
+void setLocalisation(std::string Place){
 localisation = Place;
-};
-
-virtual void setPowerConsumption(int Power){
-*powerConsumption = Power;
 };
 
 std::string getConsumptionUnit(){
@@ -107,7 +129,7 @@ class Bulb: public virtual Device{
 private:
 std::string unit = "Watt";
 void setPowUnit(std::string unit){
-    Device::setPowerConsumption(unit);
+    Device::setPowerConsumptionUnit(unit);
     };
     
 std::string BulbType = "please set bulb type";
@@ -147,7 +169,7 @@ class Fridge: public virtual Device{
 private:
 std::string unit = "Kilowatt";
 void setPowUnit(std::string unit){
-    Device::setPowerConsumption(unit);
+    Device::setPowerConsumptionUnit(unit);
     };
     
 int freeCapacity = 0; 
@@ -172,7 +194,7 @@ class MovingRobot: public virtual Device{
 private: 
 std::string unit = "Kilowatt";
 void setPowUnit(std::string unit){
-    Device::setPowerConsumption(unit);
+    Device::setPowerConsumptionUnit(unit);
     };
 int BatteryStatus = 0;  //electric lawn mower is assumed 
 std::string RobotStatus = NULL; //on/pause/off
