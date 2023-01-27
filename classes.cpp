@@ -5,6 +5,8 @@
 #include <iostream> 
 #include <string> 
 #include <algorithm>
+#include <vector>
+#include <string.h>
 
 #endif
 
@@ -55,8 +57,8 @@ Device(){
 
 // copy constructor
 Device(const Device & otherDevice){
-this->powerConsumption = new int;
-this->powerConsumption = otherDevice.powerConsumption;
+this->powerConsumption = pointerAssignment();
+memcpy(this->powerConsumption, otherDevice.powerConsumption, sizeof(otherDevice.powerConsumption));
 this->consumptionUnit = otherDevice.consumptionUnit;
 this->localisation = otherDevice.localisation;
 };
@@ -78,7 +80,7 @@ virtual ~Device(){
 delete powerConsumption;
 };
 
-// functions
+// function
 
 void printDataAboutDevice(){
     std::cout << "Information about this device:" << std::endl << std::endl;
@@ -165,7 +167,7 @@ void printDataAboutDevice(){
 class Fridge: public virtual Device{
 // Fridge capacity is determined automatically based on readings from fridge tracker: 
 // once a week planned meals scheadule is set by user on fridge tracker. 
-// Products are automatically delivered by autonomous shopping robot based on these redings. 
+// Products are automatically delivered by shopping robot based on these redings. 
 // When robot fills fridge with products it scanns barcodes in oreder to compare needed vs available. 
 
 private:
@@ -201,6 +203,7 @@ class MovingRobot: public virtual Device{
 // w niej można zaimplementować filtr kalmana, który później będzie dziedziczyć zarówno kosiarka 
 //jak i robot do rozładunku kosza 
 //i robot do zakupów, ewntualnie odkurzacz 
+// to be done in next release
 
 private: 
 int BatteryStatus = 0;  //electric lawn mower is assumed 
@@ -245,12 +248,11 @@ void printDataAboutDevice(){
 };
 
 
-
 class LawnMower: public virtual Device, public virtual MovingRobot{
 // when basket is full basket robot swiches baskets for empty one  
 
 private: 
-int BasketCapacity = 0; //automatically readed from weight sensor in basket 
+int BasketCapacity = 0; //automatically set by weight sensor in basket 
 
 public: 
 void setCapacity(int capacity){

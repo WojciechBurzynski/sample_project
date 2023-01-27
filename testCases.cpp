@@ -37,18 +37,18 @@ TEST_CASE("constructor with arguments"){
     REQUIRE(Constructor.getLocalisation() == place);   
 };
 
-//TEST_CASE("copy constructor"){
-//	// Arrange 
-//    Device deviceFirst; 
-//    int Power = 123;
-//    std::string unit = "Watt";
-//    deviceFirst.setPowerConsumption(Power, unit);
-//	// Act
-//	Device deviceSec(deviceFirst);
-//	// Assert
-//	REQUIRE(&deviceSec != NULL);
-//    REQUIRE(deviceSec.getPowerConsumption() == 123); 
-//};
+TEST_CASE("copy constructor"){
+	// Arrange 
+    Device deviceFirst; 
+    int Power = 123;
+    std::string unit = "Watt";
+    deviceFirst.setPowerConsumption(Power, unit);
+	// Act
+	Device deviceSec(deviceFirst);
+	// Assert
+	REQUIRE(&deviceSec != NULL);
+    REQUIRE(deviceSec.getPowerConsumption() == 123); 
+};
 
 // setters 
 
