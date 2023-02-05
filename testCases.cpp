@@ -7,8 +7,9 @@
 
 #include <string>
 #include <iostream> 
-#include <string> 
 #include <algorithm>
+#include <vector>
+#include <string.h>
 
 #endif
 
